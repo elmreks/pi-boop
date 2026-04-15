@@ -57,12 +57,12 @@ Use installer to copy repo files into pi runtime:
 ./scripts/install.sh
 ```
 
-Installer creates runtime targets if needed, then installs real files at:
+Installer creates runtime targets if needed, then copies files to:
 
 - `extensions/pi-boop.ts` → `~/.pi/agent/extensions/pi-boop.ts`
 - `pack/r2d2_pack` → `~/.pi/agent/pi-boop-packs/r2d2_pack`
 
-No symlinks. After install, pi runtime does not depend on repo path staying fixed.
+Copy mode is only mode right now. Pi runtime does not depend on repo path after install.
 
 Then reload pi:
 
@@ -77,10 +77,10 @@ Repo is source of truth. Runtime files are installed artifacts.
 1. Edit `extensions/pi-boop.ts` and/or files under `pack/r2d2_pack`
 2. Run `./scripts/install.sh`
 3. Run `/reload` in pi
-4. Test with `/boop-test task.complete` or `/boop-demo`
+4. Test with `/boop-test task.complete`, `/boop-test task.error`, or `/boop-demo`
 5. Commit repo changes
 
-Do not edit runtime files in `~/.pi/agent/...` directly. They will be replaced next install.
+Do not edit runtime files in `~/.pi/agent/...` directly. Installer replaces them on next run.
 
 ## Project structure
 
@@ -107,6 +107,8 @@ Live pi runtime targets:
 This is pi-native rebuild project, not direct port of peon-ping.
 
 Sound packs still use upstream OpenPeon/CESP manifest format, so `openpeon.json` inside pack directories is expected.
+
+## Uninstall
 
 Optional cleanup:
 
