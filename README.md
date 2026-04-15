@@ -95,6 +95,7 @@ pi-boop/
       sounds/
   scripts/
     install.sh
+    uninstall.sh
 ```
 
 Live pi runtime targets:
