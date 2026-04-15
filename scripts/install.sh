@@ -24,6 +24,7 @@ fi
 mkdir -p "${EXTENSIONS_DIR}" "${PACKS_DIR}"
 
 install_extension() {
+  rm -f "${TARGET_EXTENSION}"
   cp "${SOURCE_EXTENSION}" "${TARGET_EXTENSION}"
   echo "Installed extension: ${TARGET_EXTENSION}"
 }
