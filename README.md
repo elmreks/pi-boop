@@ -5,15 +5,15 @@ A native pi extension for playful sound notifications inspired by peon-ping.
 ## Current features
 
 - Load an OpenPeon/CESP-style pack from disk
-- Play sounds by category with `/peon-test <category>`
+- Play sounds by category with `/boop-test <category>`
 - Event-driven sounds for:
   - `session.start`
   - `task.complete`
   - `task.error`
 - Commands:
-  - `/peon-test`
-  - `/peon-toggle`
-  - `/peon-status`
+  - `/boop-test`
+  - `/boop-toggle`
+  - `/boop-status`
 
 ## Dev layout
 
@@ -25,7 +25,7 @@ A native pi extension for playful sound notifications inspired by peon-ping.
 
 1. Edit `extensions/pi-boop.ts`
 2. In pi, run `/reload`
-3. Test with `/peon-test task.complete`
+3. Test with `/boop-test task.complete`
 
 ## Notes
 

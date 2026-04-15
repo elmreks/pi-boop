@@ -68,8 +68,8 @@ export default function (pi: ExtensionAPI) {
     }
   }
 
-  pi.registerCommand("peon-test", {
-    description: "Play a sound from a CESP category, e.g. /peon-test task.complete",
+  pi.registerCommand("boop-test", {
+    description: "Play a sound from a CESP category, e.g. /boop-test task.complete",
     handler: async (args, ctx) => {
       const category = (args || "task.complete").trim();
       const sounds = getCategorySounds(category);
@@ -89,16 +89,16 @@ export default function (pi: ExtensionAPI) {
     },
   });
 
-  pi.registerCommand("peon-toggle", {
-    description: "Toggle peon event sounds on or off",
+  pi.registerCommand("boop-toggle", {
+    description: "Toggle pi-boop event sounds on or off",
     handler: async (_args, ctx) => {
       enabled = !enabled;
       ctx.ui.notify(`pi-boop ${enabled ? "enabled" : "disabled"}`, enabled ? "success" : "warning");
     },
   });
 
-  pi.registerCommand("peon-status", {
-    description: "Show peon event sound status",
+  pi.registerCommand("boop-status", {
+    description: "Show pi-boop event sound status",
     handler: async (_args, ctx) => {
       ctx.ui.notify(`pi-boop is ${enabled ? "enabled" : "disabled"}`, "info");
     },
