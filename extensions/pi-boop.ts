@@ -13,7 +13,7 @@ type PackManifest = {
   categories?: Record<string, { sounds?: SoundEntry[] }>;
 };
 
-const PACK_DIR = "/Users/ethan/.pi/agent/peon-packs/r2d2_pack";
+const PACK_DIR = "/Users/ethan/.pi/agent/pi-boop-packs/r2d2_pack";
 const MANIFEST_PATH = resolve(PACK_DIR, "openpeon.json");
 
 function loadPack(): PackManifest {

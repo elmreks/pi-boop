@@ -19,7 +19,7 @@ A native pi extension for playful sound notifications inspired by peon-ping.
 
 - Source: `extensions/pi-boop.ts`
 - Active pi symlink: `~/.pi/agent/extensions/pi-boop.ts`
-- Current pack: `~/.pi/agent/peon-packs/r2d2_pack`
+- Current pack: `~/.pi/agent/pi-boop-packs/r2d2_pack`
 
 ## Dev workflow
 
