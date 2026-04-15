@@ -93,14 +93,14 @@ export default function (pi: ExtensionAPI) {
     description: "Toggle peon event sounds on or off",
     handler: async (_args, ctx) => {
       enabled = !enabled;
-      ctx.ui.notify(`peon-pi ${enabled ? "enabled" : "disabled"}`, enabled ? "success" : "warning");
+      ctx.ui.notify(`pi-boop ${enabled ? "enabled" : "disabled"}`, enabled ? "success" : "warning");
     },
   });
 
   pi.registerCommand("peon-status", {
     description: "Show peon event sound status",
     handler: async (_args, ctx) => {
-      ctx.ui.notify(`peon-pi is ${enabled ? "enabled" : "disabled"}`, "info");
+      ctx.ui.notify(`pi-boop is ${enabled ? "enabled" : "disabled"}`, "info");
     },
   });
 
