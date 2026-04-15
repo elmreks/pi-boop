@@ -14,11 +14,12 @@ Current behavior:
 - `agent_end` → `task.complete`
 - tool errors → `task.error`
 
-It also includes manual commands for testing and toggling sounds.
+It also includes manual commands for testing, previewing, and toggling sounds.
 
 ## Current commands
 
 - `/boop-test <category>` — play a sound from a category
+- `/boop-demo` — preview every category in sequence
 - `/boop-toggle` — enable/disable boops
 - `/boop-status` — show current boop status
 
@@ -27,46 +28,47 @@ Examples:
 ```text
 /boop-test task.complete
 /boop-test session.start
+/boop-demo
 /boop-toggle
 /boop-status
 ```
 
-## Current pack setup
+## Pack setup
 
-Right now the extension is pointed at:
+The repo now contains the canonical pack assets:
+
+- `pack/r2d2_pack/openpeon.json`
+- `pack/r2d2_pack/sounds/*.mp3`
+
+At runtime, pi reads the installed pack from:
 
 - `~/.pi/agent/pi-boop-packs/r2d2_pack`
 
-That pack uses the upstream OpenPeon/CESP manifest format:
+That installed pack uses the upstream OpenPeon/CESP manifest format:
 
 - `openpeon.json`
 - `sounds/*.mp3`
 
 ## Install / local dev setup
 
-### 1. Put the extension where you want to develop it
-
-This repo uses:
-
-- source: `~/_dev/pi-boop/extensions/pi-boop.ts`
-
-### 2. Symlink it into pi
+Use the installer to wire the repo into pi:
 
 ```bash
-ln -sfn ~/_dev/pi-boop/extensions/pi-boop.ts ~/.pi/agent/extensions/pi-boop.ts
+./scripts/install.sh
 ```
 
-### 3. Install a pack
+By default it creates symlinks for:
 
-Current pack location:
+- `extensions/pi-boop.ts` → `~/.pi/agent/extensions/pi-boop.ts`
+- `pack/r2d2_pack` → `~/.pi/agent/pi-boop-packs/r2d2_pack`
+
+If you want a one-time copy instead of symlinks:
 
 ```bash
-~/.pi/agent/pi-boop-packs/r2d2_pack
+./scripts/install.sh --copy
 ```
 
-### 4. Reload pi
-
-Inside pi:
+Then reload pi:
 
 ```text
 /reload
@@ -74,10 +76,11 @@ Inside pi:
 
 ## Dev workflow
 
-1. Edit `extensions/pi-boop.ts`
-2. Run `/reload` in pi
-3. Test with `/boop-test task.complete`
-4. Commit the weirdness
+1. Edit `extensions/pi-boop.ts` and/or `pack/r2d2_pack/openpeon.json`
+2. Run `./scripts/install.sh`
+3. Run `/reload` in pi
+4. Test with `/boop-test task.complete` or `/boop-demo`
+5. Commit the weirdness
 
 ## Project structure
 
@@ -86,12 +89,18 @@ pi-boop/
   README.md
   extensions/
     pi-boop.ts
+  pack/
+    r2d2_pack/
+      openpeon.json
+      sounds/
+  scripts/
+    install.sh
 ```
 
 Live pi wiring:
 
-- active extension symlink: `~/.pi/agent/extensions/pi-boop.ts`
-- current pack: `~/.pi/agent/pi-boop-packs/r2d2_pack`
+- active extension install target: `~/.pi/agent/extensions/pi-boop.ts`
+- active pack install target: `~/.pi/agent/pi-boop-packs/r2d2_pack`
 
 ## Notes
 
@@ -103,10 +112,10 @@ Sound packs currently use the upstream OpenPeon/CESP manifest format, so you'll 
 
 Near-term ideas:
 
-- configurable pack path
+- configurable pack selection
 - persisted enable/disable state
 - more event mappings like `task.acknowledge` and `resource.limit`
-- richer pack selection
+- richer pack management
 - optional overlays / popups
 
 ## Credit

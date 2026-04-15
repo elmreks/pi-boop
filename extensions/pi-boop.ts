@@ -1,6 +1,17 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { existsSync, readFileSync } from "node:fs";
+import { homedir } from "node:os";
 import { resolve } from "node:path";
+
+const DEMO_CATEGORY_ORDER = [
+  "session.start",
+  "task.acknowledge",
+  "task.complete",
+  "task.error",
+  "input.required",
+  "resource.limit",
+  "user.spam",
+] as const;
 
 type SoundEntry = {
   file: string;
@@ -13,7 +24,7 @@ type PackManifest = {
   categories?: Record<string, { sounds?: SoundEntry[] }>;
 };
 
-const PACK_DIR = "/Users/ethan/.pi/agent/pi-boop-packs/r2d2_pack";
+const PACK_DIR = resolve(homedir(), ".pi/agent/pi-boop-packs/r2d2_pack");
 // Pack manifests follow the upstream OpenPeon/CESP format.
 const MANIFEST_PATH = resolve(PACK_DIR, "openpeon.json");
 
@@ -36,6 +47,10 @@ function getCategorySounds(category: string): { path: string; label: string }[] 
 function pickRandom<T>(items: T[]): T | undefined {
   if (items.length === 0) return undefined;
   return items[Math.floor(Math.random() * items.length)];
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export default function (pi: ExtensionAPI) {
@@ -86,6 +101,28 @@ export default function (pi: ExtensionAPI) {
       const result = await pi.exec("afplay", [selected.path]);
       if (result.code !== 0) {
         ctx.ui.notify(`afplay failed for ${selected.label}`, "error");
+      }
+    },
+  });
+
+  pi.registerCommand("boop-demo", {
+    description: "Play all boop categories in sequence with spoken labels so you can preview the pack",
+    handler: async (_args, ctx) => {
+      ctx.ui.notify("Running boop demo: spoken category name, then all sounds in that category.", "info");
+
+      for (const category of DEMO_CATEGORY_ORDER) {
+        const sounds = getCategorySounds(category);
+        if (sounds.length === 0) continue;
+
+        await pi.exec("say", [category.replace(/\./g, " ")]);
+        await sleep(400);
+
+        for (const sound of sounds) {
+          await pi.exec("afplay", [sound.path]);
+          await sleep(350);
+        }
+
+        await sleep(800);
       }
     },
   });
