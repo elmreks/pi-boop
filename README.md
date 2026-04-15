@@ -51,22 +51,18 @@ That installed pack uses the upstream OpenPeon/CESP manifest format:
 
 ## Install / local dev setup
 
-Use the installer to wire the repo into pi:
+Use installer to copy repo files into pi runtime:
 
 ```bash
 ./scripts/install.sh
 ```
 
-By default it creates symlinks for:
+Installer creates runtime targets if needed, then installs real files at:
 
 - `extensions/pi-boop.ts` → `~/.pi/agent/extensions/pi-boop.ts`
 - `pack/r2d2_pack` → `~/.pi/agent/pi-boop-packs/r2d2_pack`
 
-If you want a one-time copy instead of symlinks:
-
-```bash
-./scripts/install.sh --copy
-```
+No symlinks. After install, pi runtime does not depend on repo path staying fixed.
 
 Then reload pi:
 
@@ -76,11 +72,15 @@ Then reload pi:
 
 ## Dev workflow
 
-1. Edit `extensions/pi-boop.ts` and/or `pack/r2d2_pack/openpeon.json`
+Repo is source of truth. Runtime files are installed artifacts.
+
+1. Edit `extensions/pi-boop.ts` and/or files under `pack/r2d2_pack`
 2. Run `./scripts/install.sh`
 3. Run `/reload` in pi
 4. Test with `/boop-test task.complete` or `/boop-demo`
-5. Commit the weirdness
+5. Commit repo changes
+
+Do not edit runtime files in `~/.pi/agent/...` directly. They will be replaced next install.
 
 ## Project structure
 
@@ -97,16 +97,27 @@ pi-boop/
     install.sh
 ```
 
-Live pi wiring:
+Live pi runtime targets:
 
-- active extension install target: `~/.pi/agent/extensions/pi-boop.ts`
-- active pack install target: `~/.pi/agent/pi-boop-packs/r2d2_pack`
+- installed extension: `~/.pi/agent/extensions/pi-boop.ts`
+- installed pack: `~/.pi/agent/pi-boop-packs/r2d2_pack`
 
 ## Notes
 
-This is a pi-native rebuild project, not a direct port of peon-ping.
+This is pi-native rebuild project, not direct port of peon-ping.
 
-Sound packs currently use the upstream OpenPeon/CESP manifest format, so you'll still see an `openpeon.json` file inside pack directories. That's part of the pack standard, not leftover project naming.
+Sound packs still use upstream OpenPeon/CESP manifest format, so `openpeon.json` inside pack directories is expected.
+
+Optional cleanup:
+
+```bash
+./scripts/uninstall.sh
+```
+
+That removes only:
+
+- `~/.pi/agent/extensions/pi-boop.ts`
+- `~/.pi/agent/pi-boop-packs/r2d2_pack`
 
 ## Roadmap
 
