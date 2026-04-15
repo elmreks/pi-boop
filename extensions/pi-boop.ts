@@ -14,6 +14,7 @@ type PackManifest = {
 };
 
 const PACK_DIR = "/Users/ethan/.pi/agent/pi-boop-packs/r2d2_pack";
+// Pack manifests follow the upstream OpenPeon/CESP format.
 const MANIFEST_PATH = resolve(PACK_DIR, "openpeon.json");
 
 function loadPack(): PackManifest {

@@ -30,3 +30,5 @@ A native pi extension for playful sound notifications inspired by peon-ping.
 ## Notes
 
 This is a pi-native rebuild project, not a direct port of peon-ping.
+
+Sound packs currently use the upstream OpenPeon/CESP manifest format, so you'll still see an `openpeon.json` file inside pack directories. That's part of the pack standard, not leftover project naming.
